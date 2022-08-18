@@ -1,7 +1,7 @@
 //(c) A+ Computer Science
 //www.apluscompsci.com
-//Name -
-//Date -
+//Name - Tony Qu	
+//Date - 8/18/2022
 package Unit2;
 public class CubeRunner
 {
