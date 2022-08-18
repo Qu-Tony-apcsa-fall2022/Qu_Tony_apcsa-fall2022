@@ -1,8 +1,8 @@
 //� A+ Computer Science  -  www.apluscompsci.com
-//Name -
-//Date -
-//Class -
-//Lab  - 
+//Name - Tony Qu
+//Date - 8/18/2022
+//Class - APCSA
+//Lab  - TrapRunner
 package Unit2;
 public class TrapRunner
 {
