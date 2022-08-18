@@ -1,10 +1,10 @@
 //(c) A+ Computer Science
 //www.apluscompsci.com
 
-//Name -
-//Date -
-//Class -
-//Lab  -
+//Name - Tony Qu  
+//Date - 8/17/2022
+//Class - APCSA
+//Lab  - AsciiBox
 
 public class AsciiBox {
   public static void main(String[] args) {
