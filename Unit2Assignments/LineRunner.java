@@ -1,8 +1,8 @@
 //� A+ Computer Science  -  www.apluscompsci.com
-//Name -
-//Date -
-//Class -
-//Lab  - 
+//Name - Tony Qu
+//Date - 8/18/2022
+//Class - APCSA
+//Lab  - LineRunner
 package Unit2;
 public class LineRunner
 {
