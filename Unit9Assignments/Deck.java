@@ -102,7 +102,7 @@ public class Deck {
 	public Card deal() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
 		Card s = cards[size-1];
-		size -= 1;
+		size-=1;
 		if (size < 0) {
 			size = -1;
 			return new Card("empty","empty",0);

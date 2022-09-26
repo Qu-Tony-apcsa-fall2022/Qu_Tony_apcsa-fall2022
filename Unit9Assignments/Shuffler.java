@@ -8,12 +8,12 @@ public class Shuffler {
 	 * The number of consecutive shuffle steps to be performed in each call
 	 * to each sorting procedure.
 	 */
-	public static int SHUFFLE_COUNT = 8;
+	public static int SHUFFLE_COUNT = 104;
 
 	/**
 	 * The number of values to shuffle.
 	 */
-	public static int VALUE_COUNT = 4;
+	public static int VALUE_COUNT = 52;
 
 	/**
 	 * Tests shuffling methods.
