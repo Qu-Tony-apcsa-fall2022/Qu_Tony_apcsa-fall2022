@@ -1,7 +1,7 @@
+package Unit15;
 //(c) A+ Computer Science
 //www.apluscompsci.com
-//Name -
-
+//Name - Tony Qu
 public interface Locatable
 {
     public void setPos( int x, int y);
