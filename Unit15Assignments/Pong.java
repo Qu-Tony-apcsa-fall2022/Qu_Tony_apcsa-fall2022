@@ -27,9 +27,9 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	{
 		ball = new SpeedUpBall();
 		
-		leftPaddle = new Paddle(100,220,10,80, Color.GREEN,5);
+		leftPaddle = new Paddle(100,220,10,80, Color.GREEN,4);
 	
-		rightPaddle = new Paddle(640,220,10,80, Color.RED,5);
+		rightPaddle = new Paddle(640,220,10,80, Color.RED,4);
 		keys = new boolean[4];
 		walls = new Wall[4];
 		walls[0] = new Wall(50,50,650,false);
@@ -68,14 +68,20 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		back2.setColor(new Color(0,0,0));
 		back2.drawString(scores[0] + "", 100, 100);
 		back2.drawString(scores[1] + "", 640, 100);
-		for (int i = 0; i < walls.length; i ++) {
+		for (int i = 0; i < 2; i ++) {
+			walls[i].draw(back2,new Color(0,0,0));
+			if (ball.didCollideTop(walls[i]) || ball.didCollideBottom(walls[i])) {
+				ball.setYSpeed(-ball.getYSpeed());
+			}
+		}
+		for (int i = 2; i < 4; i ++) {
 			walls[i].draw(back2,new Color(0,0,0));
 			if (ball.didCollideLeft(walls[i])) {
 				ball.setXSpeed(-ball.getXSpeed());
 				back2.setColor(new Color(255,255,255));
 				back2.drawString(scores[0] + "", 100, 100);
 				back2.drawString(scores[1] + "", 640, 100);
-				scores[0] += 1;
+				scores[3-i] += 1;
 				ball.draw(back2,new Color(255,255,255));
 				ball = new SpeedUpBall();
 			}
@@ -84,13 +90,11 @@ public class Pong extends Canvas implements KeyListener, Runnable
 				back2.setColor(new Color(255,255,255));
 				back2.drawString(scores[0] + "", 100, 100);
 				back2.drawString(scores[1] + "", 640, 100);
-				scores[1] += 1;
+				scores[3-i] += 1;
 				ball.draw(back2,new Color(255,255,255));
 				ball = new SpeedUpBall();
 			}
-			else if (ball.didCollideTop(walls[i]) || ball.didCollideBottom(walls[i])) {
-				ball.setYSpeed(-ball.getYSpeed());
-			}
+			
 		}
 
 		//see if the ball hits the left paddle
