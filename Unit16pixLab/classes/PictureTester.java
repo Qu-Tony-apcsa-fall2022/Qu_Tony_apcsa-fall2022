@@ -152,10 +152,13 @@ public class PictureTester
     swan.chromakey(10);
     swan.explore();
   }
-  public static void testEncodeAndDecode()
+  public static void testEncodeAndDecode(int n, int k)
   {
     Picture swan = new Picture("swan.jpg");
-    swan.EncodeAndDecode(10);
+    swan.explore();
+    swan.Encode("msg.jpg",n,k);
+    swan.explore();
+    swan.Decode(n,k);
     swan.explore();
   }
   public static void testGetCountRedOverValue(int val)
@@ -209,7 +212,7 @@ public class PictureTester
 //    testEdgeDetection2();
 	  // all above are done
 //    testChromakey();
-//    testEncodeAndDecode();
+	  testEncodeAndDecode(3, 3);
 //    testGetCountRedOverValue(250);
 //    testSetRedToHalfValueInTopHalf();
 //    testClearBlueOverValue(200);

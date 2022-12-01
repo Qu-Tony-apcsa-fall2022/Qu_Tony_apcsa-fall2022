@@ -507,12 +507,165 @@ public void chromakey(int i) {
 	// TODO Auto-generated method stub
 	
 }
+public long hash(long a, int b) {
+	a += (a << 13);
+    a -= (a >>> 17); 
+    a ^= (a << 5);
+    return a % b;  
+}
+public int simpleHash(long a,long add, int b) {
+	return (int)( hash(a,b) + add) % b;
+}
+public void Encode(String url, int n, int mod) {
+	Picture c1 = new Picture(url);
+	int[] avgchange = new int[] {0,0,0,0};
+	Pixel[][] msgpixels = c1.getPixels2D();
 
-public void EncodeAndDecode(int i) {
 	// TODO Auto-generated method stub
+	Pixel[][] pixels = this.getPixels2D();
+    for (long i = 0; i < Math.min(pixels.length,msgpixels.length); i ++)
+    {
+    Pixel[] msgRowArray = msgpixels[(int)i];
+    Pixel[] rowArray = pixels[(int)i];
+    
+      for (long j = 0; j < Math.min(rowArray.length,msgRowArray.length); j ++)
+      {
+    	  
+    	  Pixel pixelObj = rowArray[(int)j];
+    	  Pixel messageObj = msgRowArray[(int)j];
+    	  boolean messageIsBlack = messageObj.getRed() < 120;
+//    	  if (i == 238 && j == 174) {
+//    		  System.out.println(messageIsBlack);
+//    	  }
+    	  long red = pixelObj.getRed();
+    	  long blue = pixelObj.getBlue();
+    	  long green = pixelObj.getGreen();
+    	  int[] originals = new int[] {(int)red,(int)blue,(int)green};
+    	  int[] change = new int[] {0,0,0};
+    	  boolean passed = false;
+    	  
+    	  
+    	  while (!passed) {
+    		  
+        	int val = simpleHash((long) rowArray.length * i  +  j,red + blue+green,mod) ;
+        	if (val < n  && !messageIsBlack) {
+        		
+        		avgchange[0] += Math.abs(red-originals[0]) + Math.abs(blue-originals[1]) + Math.abs(green-originals[2]);
+        		avgchange[1] += 1;
+        		
+        		break;
+        	
+        	}
+        	  
+    		  if (val > n && messageIsBlack) {
+    			  avgchange[2] += Math.abs(red-originals[0]) + Math.abs(blue-originals[1]) + Math.abs(green-originals[2]);
+    			  avgchange[3] += 1;
+    			  
+    			  break;
+    		  }
+    		  if (!passed) {
+    			  int minIndex = 0;
+    			  for (int ind = 1; ind < 3; ind ++) {
+    				  if (change[ind] < change[minIndex]) {
+    					  minIndex = ind;
+    					  
+    				  }
+    			  }
+    			  change[minIndex] += 1;
+    			  int changer = change[minIndex] * (change[minIndex] % 2 ==0 ? -1 : 1);
+
+    			  if (minIndex == 1) {
+    				  if (red + changer > 255) {
+    					  change[minIndex] += 1;
+    					  red -= 1;
+    				  }
+    				  else if (red + changer < 0) {
+    					  change[minIndex] += 1;
+    					  red += 1;
+    				  }
+    				  else {
+    					  red += changer;
+    				  }
+    				  pixelObj.setRed((int)red);  
+    			  }
+    			  else if (minIndex == 2) {
+    				  if (blue + changer > 255) {
+    					  change[minIndex] += 1;
+    					  blue -= 1;
+    				  }
+    				  else if (blue + changer < 0) {
+    					  change[minIndex] += 1;
+    					  blue += 1;
+    				  }
+    				  else {
+    					  blue += changer;
+    				  }
+    				  pixelObj.setBlue((int)blue);  
+    			  }
+    			  else {
+    				  if (green + changer > 255) {
+    					  change[minIndex] += 1;
+    					  green -= 1;
+    				  }
+    				  else if (green + changer < 0) {
+    					  change[minIndex] += 1;
+    					  green += 1;
+    				  }
+    				  else {
+    					  green += changer;
+    				  }
+    				  pixelObj.setGreen((int)green);  
+    			  }
+    		  }
+	    	  
+    	  }
+    	  
+    	  
+      }
+    }
+    System.out.println("Average change for white pixel: " + (float)avgchange[0]/avgchange[1]);
+    System.out.println("Average change for black pixel: " + (float)avgchange[2]/avgchange[3]);
+}
+public void Decode(int n, int mod) {
+	// TODO Auto-generated method stub
+	Pixel[][] pixels = this.getPixels2D();
+	for (long i = 0; i < pixels.length; i ++)
+    {
+   
+    Pixel[] rowArray = pixels[(int)i];
+    
+      for (long j = 0; j < rowArray.length; j ++)
+      {
+    	  
+    	  Pixel pixelObj = rowArray[(int)j];
+    
+    	  long red = pixelObj.getRed();
+    	  long blue = pixelObj.getBlue();
+    	  long green = pixelObj.getGreen();	
+    	  boolean passed = false;
+ 
+    	  int val = simpleHash((long)  rowArray.length * i  +  j,red + blue+green,mod) ;
+//    	  if (i == 238 && j == 174) {
+//    		  System.out.println(val);
+//    	  }
+    	if (val < n ) {
+    		passed = true;
+    		
+    	}
+  		  
+    	  if (passed) {
+    		  pixelObj.setColor(Color.WHITE);
+    	  }
+    	  else {
+    		  pixelObj.setColor(Color.BLACK);
+    	  }
+    
+    	  
+    	  
+      }
+    }
 	
 }
-
 public void getCountRedOverValue(int val) {
 	// TODO Auto-generated method stub
 	
@@ -532,5 +685,15 @@ public void getAverageForColumn(int val) {
 	// TODO Auto-generated method stub
 	
 }
-  
+ public static void main(String[] args) {
+	 int n = 7;
+	 int k = 13;
+	 Picture swan = new Picture("beach.jpg");
+
+    swan.explore();
+    swan.Encode("msg.jpg",n,k);
+    swan.explore();
+    swan.Decode(n,k);
+    swan.explore();
+ }
 } // this } is the end of class Picture, put all new methods before this
