@@ -38,14 +38,9 @@ public class SimulatorRunner extends Canvas implements Runnable, KeyListener
 		setBackground(Color.black);
 		this.addKeyListener(this);
 		new Thread(this).start();
-    circle = new FreeBody(new double[]{200,200}, new double[]{0.5,0.5},1000);
-		circle.setColor(Color.blue);
-    circle2 = new FreeBody(new double[]{600,200}, new double[]{0,-0.5},1000);
-		circle2.setColor(Color.blue);
-	circle3 = new FreeBody(new double[]{400,500}, new double[]{-0.5,0},1000);
-		circle3.setColor(Color.blue);
+
 		setVisible(true);
-		otherFrees = new FreeBody[]{circle,circle2,circle3};
+		otherFrees = new FreeBody[]{};
 		otherStatics = new StaticBody[]{};
 		pressed = false;
 	}
@@ -74,7 +69,7 @@ public class SimulatorRunner extends Canvas implements Runnable, KeyListener
 		graphToBack.drawString("Gravity Simulator", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-		if (keys[4] && (!pressed || time > 30)) {
+		if (keys[4] && (!pressed || time > 20)) {
 			pressed = true;
 			time = 0;
 			FreeBody[] copy = new FreeBody[otherFrees.length+1];

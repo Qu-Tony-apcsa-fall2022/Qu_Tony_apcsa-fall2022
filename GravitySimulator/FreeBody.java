@@ -69,7 +69,7 @@ public void move() {
         	if (b.getMass() > getMass()) continue;
         	setMass(getMass() + b.getMass());
         	remove[i] = true;
-        
+        	if (getMass() > 10000) setColor(Color.yellow);
         	continue;
         }
         else if ((b.getPosition()[0] < 0 || b.getPosition()[0] > 800) || b.getPosition()[1] < 0 || b.getPosition()[1] > 600) {
